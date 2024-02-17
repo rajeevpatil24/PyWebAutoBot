@@ -6,6 +6,7 @@ Scenario Outline: Successful Login
     When I enter username "my_username" and password "my_password"
     And I click the login button
     Then I should be logged in
+    And I close the browser
 
     Examples: Testdata
         | my_username           | my_password   |
