@@ -1,23 +1,29 @@
 from behave import given, when, then
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver import Chrome
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from environment import driver
 
 @given('I am on the login page')
 def step_impl(context):
-    # Create a new instance of the Chrome driver
-    # Create Chrome options
-    chrome_options = Options()
-    chrome_options.add_argument("--lang=en")
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument("--start-maximized")
-    chrome_options.add_argument("--disable-notifications")
+    # # Create a new instance of the Chrome driver
+    # # Create Chrome options
+    # chrome_options = Options()
+    # chrome_options.add_argument("--lang=en")
+    # chrome_options.add_argument('--no-sandbox')
+    # chrome_options.add_argument("--start-maximized")
+    # chrome_options.add_argument("--disable-notifications")
 
-    ''' Control - Headless browsing experience '''
-    # opts.add_argument('--disable-gpu')
+    # ''' Control - Headless browsing experience '''
+    # # opts.add_argument('--disable-gpu')
 
-    # Initialize Chrome driver with ChromeDriverManager
-    driver = Chrome(options=chrome_options, executable_path=ChromeDriverManager().install())
-    
-    driver = webdriver.Chrome()
+    # # Initialize Chrome driver with ChromeDriverManager
+    # driver = Chrome(options=chrome_options, executable_path=ChromeDriverManager().install())
+
+    # driver = webdriver.Chrome()
+
     driver.get('https://mega.nz/login')
 
 @when('I enter username "{username}" and password "{password}"')
