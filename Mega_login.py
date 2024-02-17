@@ -5,6 +5,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver import Chrome
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -16,7 +17,6 @@ from selenium.common.exceptions import NoSuchElementException as NEE
 
 # Path to your WebDriver
 browser = "chrome"
-CHROMEDRIVER_PATH = 'Dependencies/chromedriver_linux64/'
 
 # Clean up : Screenshots of failed tests in last lap
 failed_tests_screenshots = glob.glob(os.path.join(paths.SCREENSHOT_PATH, '*.png'))
@@ -27,16 +27,20 @@ for screenshots in failed_tests_screenshots:
 
 try:
     # Create a new instance of the Chrome driver
-    opts = ChromeOptions()
-    opts.add_argument("--lang=en")
-    opts.add_argument('--no-sandbox')
-    opts.add_argument("--start-maximized")
-    opts.add_argument("--disable-notifications")
+    # Create Chrome options
+    chrome_options = Options()
+    chrome_options.add_argument("--lang=en")
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument("--start-maximized")
+    chrome_options.add_argument("--disable-notifications")
 
     ''' Control - Headless browsing experience '''
     # opts.add_argument('--disable-gpu')
-        
-    driver = Chrome(options=opts, executable_path=ChromeDriverManager().install())
+
+    # Initialize Chrome driver with ChromeDriverManager
+    driver = Chrome(options=chrome_options, executable_path=ChromeDriverManager().install())
+    # driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)    
+    # driver = Chrome(options=opts, executable_path=ChromeDriverManager().install())
     # driver.maximize_window()
     # Open Google.com
     driver.get("https://mega.nz/login")
@@ -53,8 +57,10 @@ try:
     # Take a screenshot
     driver.save_screenshot(paths.SCREENSHOT_PATH + "/mega_login.png")
     time.sleep(5)
+    driver.quit()
 except Exception as e:
     print(f"Test failed due to: {e}")
 finally:
     # Close the browser
-    driver.quit()
+    print("In finally")
+    # driver.quit()
